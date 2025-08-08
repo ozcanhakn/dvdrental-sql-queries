@@ -1,0 +1,25 @@
+-- 1. film tablosunda title 'n' ile biten en uzun 5 film
+SELECT *
+FROM film
+WHERE title LIKE '%n'
+ORDER BY length DESC
+LIMIT 5;
+
+-- 2. film tablosunda title 'n' ile biten, en kısa filmler arasında 6-10. sıralardaki 5 film
+WITH ranked_films AS (
+  SELECT *,
+         ROW_NUMBER() OVER (ORDER BY length ASC) AS rn
+  FROM film
+  WHERE title LIKE '%n'
+)
+SELECT *
+FROM ranked_films
+WHERE rn BETWEEN 6 AND 10
+ORDER BY length ASC;
+
+-- 3. customer tablosunda store_id = 1 ve last_name sütununa göre azalan sıralamada ilk 4 kayıt
+SELECT *
+FROM customer
+WHERE store_id = 1
+ORDER BY last_name DESC
+LIMIT 4;
